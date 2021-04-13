@@ -9,9 +9,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:overlay_support/src/theme.dart';
 
 part 'overlay_animation.dart';
-
 part 'overlay_entry.dart';
-
 part 'overlay_key.dart';
 
 /// to build a widget with animated value
@@ -53,6 +51,8 @@ OverlaySupportEntry showOverlay(
   AnimatedOverlayWidgetBuilder builder, {
   Curve curve,
   Duration duration,
+  Duration animationDuration,
+  Duration reverseAnimationDuration,
   Key key,
 }) {
   assert(key is! GlobalKey);
@@ -90,7 +90,8 @@ OverlaySupportEntry showOverlay(
         key: stateKey,
         builder: builder,
         curve: curve,
-        animationDuration: kNotificationSlideDuration,
+        animationDuration: animationDuration ?? kNotificationSlideDuration,
+        reverseAnimationDuration: reverseAnimationDuration ?? kNotificationSlideDuration,
         duration: duration,
       ),
     );
