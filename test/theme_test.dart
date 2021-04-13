@@ -8,7 +8,7 @@ void main() {
     final Color presetBackground = Colors.amber;
     final Alignment presetToastAlignment = Alignment(0.2, 0.2);
 
-    OverlaySupportTheme? theme;
+    OverlaySupportTheme theme;
     await tester.pumpWidget(OverlaySupport.global(
       toastTheme: ToastThemeData(
         textColor: presetTextColor,
@@ -48,7 +48,7 @@ void main() {
       background: Colors.black,
       alignment: Alignment(1, 0),
     );
-    ToastThemeData? currentToastTheme;
+    ToastThemeData currentToastTheme;
     Widget createWidget(ToastThemeData toastThemeData) {
       return OverlaySupport.global(
         toastTheme: toastThemeData,
@@ -62,6 +62,7 @@ void main() {
         )),
       );
     }
+
     await tester.pumpWidget(createWidget(theme1));
     expect(currentToastTheme, equals(theme1));
     await tester.pumpWidget(createWidget(theme2));

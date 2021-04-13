@@ -17,7 +17,8 @@ part 'overlay_entry.dart';
 ///
 /// A simple use case is [TopSlideNotification] in [showOverlayNotification].
 ///
-typedef Widget AnimatedOverlayWidgetBuilder(BuildContext context, double progress);
+typedef Widget AnimatedOverlayWidgetBuilder(
+    BuildContext context, double progress);
 
 /// Basic api to show overlay widget.
 ///
@@ -49,17 +50,17 @@ typedef Widget AnimatedOverlayWidgetBuilder(BuildContext context, double progres
 ///
 OverlaySupportEntry showOverlay(
   AnimatedOverlayWidgetBuilder builder, {
-  Curve? curve,
-  Duration? duration,
-  Key? key,
-  BuildContext? context,
-  Duration? animationDuration,
-  Duration? reverseAnimationDuration,
+  Curve curve,
+  Duration duration,
+  Key key,
+  BuildContext context,
+  Duration animationDuration,
+  Duration reverseAnimationDuration,
 }) {
   assert(key is! GlobalKey);
 
-  final OverlaySupportState? overlaySupport = findOverlayState(context: context);
-  final OverlayState? overlay = overlaySupport?.overlayState;
+  final OverlaySupportState overlaySupport = findOverlayState(context: context);
+  final OverlayState overlay = overlaySupport?.overlayState;
   if (overlaySupport == null || overlay == null) {
     assert(() {
       debugPrint('overlay not available, dispose this call : $key');
@@ -90,14 +91,16 @@ OverlaySupportEntry showOverlay(
         builder: builder,
         curve: curve,
         animationDuration: animationDuration ?? kNotificationSlideDuration,
-        reverseAnimationDuration: reverseAnimationDuration ?? kNotificationSlideDuration,
+        reverseAnimationDuration:
+            reverseAnimationDuration ?? kNotificationSlideDuration,
         duration: duration ?? kNotificationDuration,
         overlayKey: overlayKey,
         overlaySupportState: overlaySupport,
       ),
     );
   });
-  final OverlaySupportEntry supportEntry = OverlaySupportEntry(entry, overlayKey, stateKey, overlaySupport);
+  final OverlaySupportEntry supportEntry =
+      OverlaySupportEntry(entry, overlayKey, stateKey, overlaySupport);
   overlaySupport.addEntry(supportEntry, key: overlayKey);
   overlay.insert(entry);
   return supportEntry;

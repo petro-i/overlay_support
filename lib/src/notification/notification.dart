@@ -9,12 +9,12 @@ class TopSlideNotification extends StatelessWidget {
 
   final double progress;
 
-  const TopSlideNotification({Key? key, required this.builder, required this.progress}) : super(key: key);
+  const TopSlideNotification({Key key, @required this.builder, @required this.progress}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FractionalTranslation(
-      translation: Offset.lerp(const Offset(0, -1), const Offset(0, 0), progress)!,
+      translation: Offset.lerp(const Offset(0, -1), const Offset(0, 0), progress),
       child: builder(context),
     );
   }
@@ -27,12 +27,12 @@ class BottomSlideNotification extends StatelessWidget {
 
   final double progress;
 
-  const BottomSlideNotification({Key? key, required this.builder, required this.progress}) : super(key: key);
+  const BottomSlideNotification({Key key, @required this.builder, @required this.progress}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FractionalTranslation(
-      translation: Offset.lerp(const Offset(0, 1), const Offset(0, 0), progress)!,
+      translation: Offset.lerp(const Offset(0, 1), const Offset(0, 0), progress),
       child: builder(context),
     );
   }
@@ -42,28 +42,24 @@ class BottomSlideNotification extends StatelessWidget {
 class SlideDismissible extends StatelessWidget {
   final Widget child;
 
-  final DismissDirection direction;
+  final bool enable;
 
-  SlideDismissible({
-    Key? key,
-    required this.child,
-    @Deprecated("use directions instead.") bool enable = true,
-    DismissDirection? direction = null,
-  })  : this.direction = direction != null
-            ? direction
-            : enable
-                ? DismissDirection.horizontal
-                : DismissDirection.none,
-        super(key: key);
+  const SlideDismissible({
+    @required Key key,
+    @required this.child,
+    @required this.enable,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (!enable) return child;
     return Dismissible(
       child: child,
-      key: key!,
-      direction: direction,
+      key: key,
       onDismissed: (direction) {
-        OverlaySupportEntry.of(context)!.dismiss(animate: false);
+        OverlaySupportEntry.of(
+          context,
+        ).dismiss(animate: false);
       },
     );
   }

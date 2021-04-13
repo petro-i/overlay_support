@@ -3,16 +3,17 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
-final GlobalKey<OverlaySupportState> _keyFinder = GlobalKey(debugLabel: 'overlay_support');
+final GlobalKey<OverlaySupportState> _keyFinder =
+    GlobalKey(debugLabel: 'overlay_support');
 
-OverlaySupportState? findOverlayState({BuildContext? context}) {
+OverlaySupportState findOverlayState({BuildContext context}) {
   if (context == null) {
     assert(
       _debugInitialized,
       'Global OverlaySupport Not Initialized ! \n'
       'ensure your app wrapped widget OverlaySupport.global',
     );
-    final OverlaySupportState? state = _keyFinder.currentState;
+    final OverlaySupportState state = _keyFinder.currentState;
     assert(() {
       if (state == null) {
         throw FlutterError('''we can not find OverlaySupportState in your app.
@@ -32,7 +33,8 @@ OverlaySupportState? findOverlayState({BuildContext? context}) {
     }());
     return state;
   }
-  final OverlaySupportState? overlaySupportState = context.findAncestorStateOfType<OverlaySupportState>();
+  final OverlaySupportState overlaySupportState =
+      context.findAncestorStateOfType<OverlaySupportState>();
   return overlaySupportState;
 }
 
@@ -41,36 +43,41 @@ bool _debugInitialized = false;
 class OverlaySupport extends StatelessWidget {
   final Widget child;
 
-  final ToastThemeData? toastTheme;
+  final ToastThemeData toastTheme;
 
   final bool global;
 
   const OverlaySupport({
-    Key? key,
-    required this.child,
+    Key key,
+    @required this.child,
     this.toastTheme,
     this.global = true,
   }) : super(key: key);
 
-  const OverlaySupport.global({Key? key, required Widget child, ToastThemeData? toastTheme})
+  const OverlaySupport.global(
+      {Key key, @required Widget child, ToastThemeData toastTheme})
       : this.child = child,
         this.global = true,
         this.toastTheme = toastTheme;
 
-  const OverlaySupport.local({Key? key, required Widget child, ToastThemeData? toastTheme})
+  const OverlaySupport.local(
+      {Key key, @required Widget child, ToastThemeData toastTheme})
       : this.child = child,
         this.global = false,
         this.toastTheme = toastTheme;
 
-  OverlaySupportState? of(BuildContext context) {
+  OverlaySupportState of(BuildContext context) {
     return context.findAncestorStateOfType<OverlaySupportState>();
   }
 
   @override
   Widget build(BuildContext context) {
     return OverlaySupportTheme(
-      toastTheme: toastTheme ?? OverlaySupportTheme.toast(context) ?? ToastThemeData(),
-      child: global ? _GlobalOverlaySupport(child: child) : _LocalOverlaySupport(child: child),
+      toastTheme:
+          toastTheme ?? OverlaySupportTheme.toast(context) ?? ToastThemeData(),
+      child: global
+          ? _GlobalOverlaySupport(child: child)
+          : _LocalOverlaySupport(child: child),
     );
   }
 }
@@ -78,7 +85,7 @@ class OverlaySupport extends StatelessWidget {
 class _GlobalOverlaySupport extends StatefulWidget {
   final Widget child;
 
-  _GlobalOverlaySupport({required this.child}) : super(key: _keyFinder);
+  _GlobalOverlaySupport({@required this.child}) : super(key: _keyFinder);
 
   @override
   StatefulElement createElement() {
@@ -90,12 +97,15 @@ class _GlobalOverlaySupport extends StatefulWidget {
   _GlobalOverlaySupportState createState() => _GlobalOverlaySupportState();
 }
 
-class _GlobalOverlaySupportState extends OverlaySupportState<_GlobalOverlaySupport> {
+class _GlobalOverlaySupportState
+    extends OverlaySupportState<_GlobalOverlaySupport> {
   @override
   Widget build(BuildContext context) {
     assert(() {
-      if (context.findAncestorWidgetOfExactType<_GlobalOverlaySupport>() != null) {
-        throw FlutterError('There is already an GlobalOverlaySupport in the Widget tree.');
+      if (context.findAncestorWidgetOfExactType<_GlobalOverlaySupport>() !=
+          null) {
+        throw FlutterError(
+            'There is already an GlobalOverlaySupport in the Widget tree.');
       }
       return true;
     }());
@@ -103,13 +113,13 @@ class _GlobalOverlaySupportState extends OverlaySupportState<_GlobalOverlaySuppo
   }
 
   @override
-  OverlayState? get overlayState {
-    NavigatorState? navigator;
+  OverlayState get overlayState {
+    NavigatorState navigator;
     void visitor(Element element) {
       if (navigator != null) return;
 
       if (element.widget is Navigator) {
-        navigator = (element as StatefulElement).state as NavigatorState?;
+        navigator = (element as StatefulElement).state as NavigatorState;
       } else {
         element.visitChildElements(visitor);
       }
@@ -117,7 +127,8 @@ class _GlobalOverlaySupportState extends OverlaySupportState<_GlobalOverlaySuppo
 
     context.visitChildElements(visitor);
 
-    assert(navigator != null, '''It looks like you are not using Navigator in your app.
+    assert(navigator != null,
+        '''It looks like you are not using Navigator in your app.
          
          do you wrapped you app widget like this?
          
@@ -137,19 +148,20 @@ class _LocalOverlaySupport extends StatefulWidget {
   final Widget child;
 
   const _LocalOverlaySupport({
-    Key? key,
-    required this.child,
+    Key key,
+    @required this.child,
   }) : super(key: key);
 
   @override
   _LocalOverlaySupportState createState() => _LocalOverlaySupportState();
 }
 
-class _LocalOverlaySupportState extends OverlaySupportState<_LocalOverlaySupport> {
+class _LocalOverlaySupportState
+    extends OverlaySupportState<_LocalOverlaySupport> {
   final GlobalKey<OverlayState> _overlayStateKey = GlobalKey();
 
   @override
-  OverlayState? get overlayState => _overlayStateKey.currentState;
+  OverlayState get overlayState => _overlayStateKey.currentState;
 
   @override
   Widget build(BuildContext context) {
@@ -163,17 +175,17 @@ class _LocalOverlaySupportState extends OverlaySupportState<_LocalOverlaySupport
 abstract class OverlaySupportState<T extends StatefulWidget> extends State<T> {
   final Map<Key, OverlaySupportEntry> _entries = HashMap();
 
-  OverlayState? get overlayState;
+  OverlayState get overlayState;
 
-  OverlaySupportEntry? getEntry({required Key key}) {
+  OverlaySupportEntry getEntry({@required Key key}) {
     return _entries[key];
   }
 
-  void addEntry(OverlaySupportEntry entry, {required Key key}) {
+  void addEntry(OverlaySupportEntry entry, {@required Key key}) {
     _entries[key] = entry;
   }
 
-  void removeEntry({required Key key}) {
+  void removeEntry({@required Key key}) {
     _entries.remove(key);
   }
 }

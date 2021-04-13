@@ -18,8 +18,9 @@ abstract class OverlaySupportEntry {
   ///
   /// The [context] should be the BuildContext which build a element in Notification.
   ///
-  static OverlaySupportEntry? of(BuildContext context) {
-    final animatedOverlay = context.findAncestorWidgetOfExactType<_AnimatedOverlay>();
+  static OverlaySupportEntry of(BuildContext context) {
+    final animatedOverlay =
+        context.findAncestorWidgetOfExactType<_AnimatedOverlay>();
     assert(() {
       if (animatedOverlay == null) {
         throw FlutterError('No KeyedOverlay widget found.\n'
@@ -31,7 +32,8 @@ abstract class OverlaySupportEntry {
     if (animatedOverlay == null) {
       return OverlaySupportEntry.empty();
     }
-    return animatedOverlay.overlaySupportState.getEntry(key: animatedOverlay.overlayKey);
+    return animatedOverlay.overlaySupportState
+        .getEntry(key: animatedOverlay.overlayKey);
   }
 
   /// Dismiss the Overlay which associated with this entry.
@@ -92,7 +94,7 @@ class _OverlaySupportEntryImpl implements OverlaySupportEntry {
 
     void animateRemove() {
       if (_stateKey.currentState != null) {
-        _stateKey.currentState!.hide().whenComplete(() {
+        _stateKey.currentState.hide().whenComplete(() {
           _dismissEntry();
         });
       } else {

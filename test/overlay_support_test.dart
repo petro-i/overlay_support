@@ -51,11 +51,12 @@ void main() {
 
   group("simple notification hide by returned entry", () {
     testWidgets("global", (tester) async {
-      OverlaySupportEntry? entry;
+      OverlaySupportEntry entry;
       await tester.pumpWidget(FakeOverlay(child: Builder(builder: (context) {
         return FlatButton(
             onPressed: () {
-              entry = showSimpleNotification(Text('message'), autoDismiss: false);
+              entry =
+                  showSimpleNotification(Text('message'), autoDismiss: false);
             },
             child: Text('notification'));
       })));
@@ -66,7 +67,7 @@ void main() {
       assert(entry != null, 'entry has been inited by tap event');
       expect(find.text('message'), findsOneWidget);
 
-      entry!.dismiss(animate: false);
+      entry.dismiss(animate: false);
       await tester.pump();
 
       //already hidden
@@ -76,11 +77,12 @@ void main() {
     });
 
     testWidgets("local", (tester) async {
-      OverlaySupportEntry? entry;
+      OverlaySupportEntry entry;
       await tester.pumpWidget(FakeOverlay(child: Builder(builder: (context) {
         return FlatButton(
             onPressed: () {
-              entry = showSimpleNotification(Text('message'), autoDismiss: false, context: context);
+              entry = showSimpleNotification(Text('message'),
+                  autoDismiss: false, context: context);
             },
             child: Text('notification'));
       })));
@@ -91,7 +93,7 @@ void main() {
       assert(entry != null, 'entry has been inited by tap event');
       expect(find.text('message'), findsOneWidget);
 
-      entry!.dismiss(animate: false);
+      entry.dismiss(animate: false);
       await tester.pump();
 
       //already hidden
@@ -106,7 +108,8 @@ void main() {
       await tester.pumpWidget(FakeOverlay(child: Builder(builder: (context) {
         return FlatButton(
             onPressed: () {
-              final entry = showSimpleNotification(Text('message'), autoDismiss: false);
+              final entry =
+                  showSimpleNotification(Text('message'), autoDismiss: false);
               //dismiss immediately
               entry.dismiss();
             },
@@ -127,7 +130,8 @@ void main() {
       await tester.pumpWidget(FakeOverlay(child: Builder(builder: (context) {
         return FlatButton(
             onPressed: () {
-              final entry = showSimpleNotification(Text('message'), autoDismiss: false, context: context);
+              final entry = showSimpleNotification(Text('message'),
+                  autoDismiss: false, context: context);
               //dismiss immediately
               entry.dismiss();
             },
@@ -146,7 +150,8 @@ void main() {
   });
 
   group("simple notification behavior on back pressed", () {
-    Widget _buildTestTree({required void show(BuildContext context, Widget child)}) {
+    Widget _buildTestTree(
+        {@required void show(BuildContext context, Widget child)}) {
       return FakeOverlay(child: Builder(builder: (context) {
         return FlatButton(
             onPressed: () {
@@ -223,12 +228,14 @@ void main() {
           children: <Widget>[
             FlatButton(
                 onPressed: () {
-                  showSimpleNotification(Text('message'), autoDismiss: false, key: ValueKey('hello'));
+                  showSimpleNotification(Text('message'),
+                      autoDismiss: false, key: ValueKey('hello'));
                 },
                 child: Text('notification')),
             FlatButton(
                 onPressed: () {
-                  showSimpleNotification(Text('message2'), autoDismiss: false, key: ValueKey('hello'));
+                  showSimpleNotification(Text('message2'),
+                      autoDismiss: false, key: ValueKey('hello'));
                 },
                 child: Text('notification2')),
           ],
@@ -261,12 +268,14 @@ void main() {
           children: <Widget>[
             FlatButton(
                 onPressed: () {
-                  showSimpleNotification(Text('message'), autoDismiss: false, key: ModalKey('hello'));
+                  showSimpleNotification(Text('message'),
+                      autoDismiss: false, key: ModalKey('hello'));
                 },
                 child: Text('notification')),
             FlatButton(
                 onPressed: () {
-                  showSimpleNotification(Text('message2'), autoDismiss: false, key: ModalKey('hello'));
+                  showSimpleNotification(Text('message2'),
+                      autoDismiss: false, key: ModalKey('hello'));
                 },
                 child: Text('notification2')),
           ],
@@ -292,12 +301,14 @@ void main() {
           children: <Widget>[
             FlatButton(
                 onPressed: () {
-                  showSimpleNotification(Text('message'), autoDismiss: false, key: TransientKey('transient'));
+                  showSimpleNotification(Text('message'),
+                      autoDismiss: false, key: TransientKey('transient'));
                 },
                 child: Text('notification')),
             FlatButton(
                 onPressed: () {
-                  showSimpleNotification(Text('message2'), autoDismiss: false, key: TransientKey('transient'));
+                  showSimpleNotification(Text('message2'),
+                      autoDismiss: false, key: TransientKey('transient'));
                 },
                 child: Text('notification2')),
           ],
@@ -317,11 +328,12 @@ void main() {
 
   group('overlay support entry', () {
     testWidgets('find OverlaySupportEntry by context', (tester) async {
-      OverlaySupportEntry? entry;
+      OverlaySupportEntry entry;
       await tester.pumpWidget(FakeOverlay(child: Builder(builder: (context) {
         return FlatButton(
             onPressed: () {
-              showSimpleNotification(Text('message'), trailing: Builder(builder: (context) {
+              showSimpleNotification(Text('message'),
+                  trailing: Builder(builder: (context) {
                 return FlatButton(
                   onPressed: () {
                     entry = OverlaySupportEntry.of(context);
@@ -344,11 +356,12 @@ void main() {
     });
 
     testWidgets('overlay support entry dismissed', (tester) async {
-      OverlaySupportEntry? entry;
+      OverlaySupportEntry entry;
       await tester.pumpWidget(FakeOverlay(child: Builder(builder: (context) {
         return FlatButton(
             onPressed: () {
-              entry = showSimpleNotification(Text('message'), autoDismiss: true);
+              entry =
+                  showSimpleNotification(Text('message'), autoDismiss: true);
             },
             child: Text('notification'));
       })));
@@ -358,7 +371,7 @@ void main() {
 
       assert(entry != null);
       bool dismissed = false;
-      entry!.dismissed.whenComplete(() {
+      entry.dismissed.whenComplete(() {
         dismissed = true;
       });
       await tester.pump(Duration(milliseconds: 100));
@@ -370,7 +383,7 @@ void main() {
 class FakeOverlay extends StatelessWidget {
   final Widget child;
 
-  const FakeOverlay({Key? key, required this.child}) : super(key: key);
+  const FakeOverlay({Key key, @required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

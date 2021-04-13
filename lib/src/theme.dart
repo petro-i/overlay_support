@@ -9,15 +9,15 @@ class ToastThemeData {
   final Alignment alignment;
 
   const ToastThemeData.raw({
-    required this.textColor,
-    required this.background,
-    required this.alignment,
+    @required this.textColor,
+    @required this.background,
+    @required this.alignment,
   });
 
   factory ToastThemeData({
-    Color? textColor,
-    Color? background,
-    Alignment? alignment,
+    Color textColor,
+    Color background,
+    Alignment alignment,
   }) {
     return ToastThemeData.raw(
         textColor: textColor ?? Colors.black87,
@@ -35,25 +35,27 @@ class ToastThemeData {
           alignment == other.alignment;
 
   @override
-  int get hashCode => textColor.hashCode ^ background.hashCode ^ alignment.hashCode;
+  int get hashCode =>
+      textColor.hashCode ^ background.hashCode ^ alignment.hashCode;
 }
 
 class OverlaySupportTheme extends InheritedWidget {
   final ToastThemeData toastTheme;
 
   const OverlaySupportTheme({
-    Key? key,
-    required Widget child,
-    required this.toastTheme,
+    Key key,
+    @required Widget child,
+    @required this.toastTheme,
   }) : super(key: key, child: child);
 
-  static OverlaySupportTheme? of(BuildContext context) {
-    final OverlaySupportTheme? theme = context.dependOnInheritedWidgetOfExactType<OverlaySupportTheme>();
+  static OverlaySupportTheme of(BuildContext context) {
+    final OverlaySupportTheme theme =
+        context.dependOnInheritedWidgetOfExactType<OverlaySupportTheme>();
     return theme;
   }
 
-  static ToastThemeData? toast(BuildContext context) {
-    return of(context)?.toastTheme;
+  static ToastThemeData toast(BuildContext context) {
+    return of(context).toastTheme;
   }
 
   @override

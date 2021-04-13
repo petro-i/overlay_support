@@ -14,10 +14,10 @@ import 'package:overlay_support/src/overlay.dart';
 ///
 OverlaySupportEntry showOverlayNotification(
   WidgetBuilder builder, {
-  Duration? duration,
-  Key? key,
+  Duration duration,
+  Key key,
   NotificationPosition position = NotificationPosition.top,
-  BuildContext? context,
+  BuildContext context,
 }) {
   if (duration == null) {
     duration = kNotificationDuration;
@@ -49,33 +49,33 @@ OverlaySupportEntry showSimpleNotification(
   /**
    * See more [ListTile.leading].
    */
-  Widget? leading,
+  Widget leading,
   /**
    * See more [ListTile.subtitle].
    */
-  Widget? subtitle,
+  Widget subtitle,
   /**
    * See more [ListTile.trailing].
    */
-  Widget? trailing,
+  Widget trailing,
   /**
    * See more [ListTile.contentPadding].
    */
-  EdgeInsetsGeometry? contentPadding,
+  EdgeInsetsGeometry contentPadding,
   /**
    * The background color for notification, default to [ThemeData.accentColor].
    */
-  Color? background,
+  Color background,
   /**
    * See more [ListTileTheme.textColor],[ListTileTheme.iconColor].
    */
-  Color? foreground,
+  Color foreground,
   /**
    * The elevation of notification, see more [Material.elevation].
    */
   double elevation = 16,
-  Duration? duration,
-  Key? key,
+  Duration duration,
+  Key key,
   /**
    * True to auto hide after duration [kNotificationDuration].
    */
@@ -88,21 +88,16 @@ OverlaySupportEntry showSimpleNotification(
    * The position of notification, default is [NotificationPosition.top],
    */
   NotificationPosition position = NotificationPosition.top,
-  BuildContext? context,
+  BuildContext context,
   /**
    * The direction in which the notification can be dismissed.
    */
-  DismissDirection? slideDismissDirection = null,
+  bool dismissEnabled,
 }) {
-  final dismissDirection = slideDismissDirection != null
-      ? slideDismissDirection
-      : slideDismiss
-          ? DismissDirection.horizontal
-          : DismissDirection.none;
   final entry = showOverlayNotification(
     (context) {
       return SlideDismissible(
-        direction: dismissDirection,
+        enable: dismissEnabled,
         key: ValueKey(key),
         child: Material(
           color: background ?? Theme.of(context).accentColor,

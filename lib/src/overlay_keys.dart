@@ -5,7 +5,8 @@ import 'package:flutter/widgets.dart';
 class KeyedOverlay extends StatelessWidget {
   final Widget child;
 
-  const KeyedOverlay({required Key key, required this.child}) : super(key: key);
+  const KeyedOverlay({@required Key key, @required this.child})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
